@@ -20,6 +20,7 @@ services:
     container_name: php
     volumes:
       - ./src:/var/www/html
+      - ./log/php:/var/www/html/var/log
     networks:
       - app
 
@@ -27,7 +28,7 @@ services:
     image: mysql:5.7.12
     container_name: mysql
     volumes:
-      - ./backup:/var/backups
+      - ./backup:/var/backup
       - ./mysql:/var/lib/mysql
     environment:
       MYSQL_DATABASE: mydatabase
