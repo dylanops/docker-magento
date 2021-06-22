@@ -14,13 +14,23 @@ services:
     networks:
       - app
 
-  php:
-    build: './dockerfile/php'
+  php-fpm:
+    build: './dockerfile/php-fpm'
     restart: always
-    container_name: php
+    container_name: php-fpm
     volumes:
+      - ./conf/php/usr/local/etc/php.ini:/usr/local/etc/php.ini
       - ./src:/var/www/html
-      - ./log/php:/var/www/html/var/log
+    networks:
+      - app
+
+  cron:
+    build: './dockerfile/php-fpm'
+    restart: always
+    container_name: cron
+    volumes:
+      - ./conf/php/usr/local/etc/php.ini:/usr/local/etc/php.ini
+      - ./src:/var/www/html
     networks:
       - app
 

@@ -1,4 +1,4 @@
-FROM php:7.4-fpm
+FROM php:7.4.20-cli
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=1.10.16
 
@@ -24,7 +24,8 @@ RUN apt-get update \
 		git \
 		gnupg2 \
         vim \
-		telnet
+		telnet \
+		cron
 
 # Install php extension
 
@@ -93,20 +94,6 @@ RUN apt-get install -y \
     libcurl4-openssl-dev \
     && docker-php-ext-install -j$(nproc) curl
 
-# hash
-# RUN apt-get install -y \
-# 	libmhash2 \
-#     libmhash-dev \
-#     libc-client-dev \
-#     libkrb5-dev \
-#     libssh2-1-dev \
-#     libmcrypt-dev \
-#     && docker-php-ext-configure hash --with-mhash \
-#     && docker-php-ext-install -j$(nproc) hash
-
-# openssl
-# RUN docker-php-ext-install -j$(nproc) openssl
-
 # others
 RUN docker-php-ext-install -j$(nproc) \
 	soap \
@@ -118,6 +105,28 @@ RUN docker-php-ext-install -j$(nproc) \
     ctype \
     iconv
 
+# Install form source
+
+ENV EXT_APCU_VERSION=5.1.17
+
+# ext-opache
+RUN docker-php-source extract \
+	&& docker-php-ext-enable opcache \
+	&& echo "opcache.memory_consumption=512MB" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
+	&& echo "opcache.max_accelerated_files=60000" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
+	&& echo "opcache.consistency_checks=0" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
+	&& echo "opcache.validate_timestamps=0" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
+	&& echo "opcache.enable_cli=1" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini
+# ext-apcu
+RUN mkdir -p /usr/src/php/ext/apcu \
+    && curl -fsSL https://github.com/krakjoe/apcu/archive/v$EXT_APCU_VERSION.tar.gz | tar xvz -C /usr/src/php/ext/apcu --strip 1 \
+    && docker-php-ext-install apcu \
+	&& echo "[apcu]" >> /usr/local/etc/php/conf.d/docker-php-ext-apcu.ini \
+	&& echo "apc.enabled=1" >> /usr/local/etc/php/conf.d/docker-php-ext-apcu.ini
+
+# clean up	
+RUN docker-php-source delete
+
 # RUN pecl install xdebug-3.0.2 \
 #     && docker-php-ext-enable xdebug \
 #     && echo "xdebug.remote_enable=0" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
@@ -127,12 +136,16 @@ RUN docker-php-ext-install -j$(nproc) \
 #     && echo "xdebug.remote_connect_back=1" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
 #     && echo "xdebug.idekey=PHPSTORM" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
-#RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
+RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+
 RUN cd /usr/local/etc/php/conf.d/ && \
-  echo 'memory_limit = -1' >> /usr/local/etc/php/conf.d/docker-php-memlimit.ini
+  echo 'memory_limit = 2G' >> /usr/local/etc/php/conf.d/docker-php-memlimit.ini
+
 # RUN curl -Ls https://raw.githubusercontent.com/newrelic/newrelic-cli/master/scripts/install.sh | bash && NEW_RELIC_API_KEY=NRAK-JVXF2L7SUF78MQW0O27LTTMMHP1 NEW_RELIC_ACCOUNT_ID=3195151 /usr/local/bin/newrelic install
+
 RUN groupadd -g 1000 app \
     && useradd -g 1000 -u 1000 -d /var/www -s /bin/bash app
+
 RUN mkdir -p /var/www/html \
     && chown -R app:app /var/www
 
