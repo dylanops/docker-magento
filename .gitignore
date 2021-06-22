@@ -1,0 +1,7 @@
+# Git ignore
+src
+backup
+log
+mysql
+.idea
+.vs

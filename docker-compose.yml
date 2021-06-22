@@ -1,0 +1,66 @@
+version: '3.7'
+
+services:
+  app:
+    image: nginx:1.16.1
+    container_name: nginx
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./conf/app/etc/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
+      - ./src:/var/www/html
+      - ./log/nginx:/var/log/nginx
+    networks:
+      - app
+
+  php:
+    build: './dockerfile/php'
+    restart: always
+    container_name: php
+    volumes:
+      - ./src:/var/www/html
+    networks:
+      - app
+
+  mysql:
+    image: mysql:5.7.12
+    container_name: mysql
+    volumes:
+      - ./backup:/var/backups
+      - ./mysql:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: mydatabase
+      MYSQL_USER: root
+      MYSQL_PASSWORD: 123456
+      MYSQL_ROOT_PASSWORD: 123456
+    networks:
+      - app
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    links:
+      - mysql
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    ports:
+      - 8080:80
+    networks:
+      - app
+
+  elasticsearch:
+    image: elasticsearch:7.13.2
+    container_name: elasticsearch
+    ports:
+      - "9300:9300"
+      - "9200:9200"
+    environment:
+      discovery.type: single-node
+    networks:
+      - app
+networks:
+  app:
+    driver: bridge
