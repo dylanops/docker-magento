@@ -14,7 +14,7 @@ services:
     networks:
       - app
 
-  php-fpm:
+  php:
     build: './dockerfile/php-fpm'
     restart: always
     container_name: php-fpm
