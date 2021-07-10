@@ -26,10 +26,6 @@ services:
       - ${PROJECT_PATH}:/var/www/html
     networks:
       - app
-    environment:
-      PHP_IDE_CONFIG: 'serverName=web'
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
 
   cron:
     build: './dockerfile/php-fpm'
