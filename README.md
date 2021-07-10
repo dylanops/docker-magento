@@ -1,8 +1,44 @@
-# Docker magento 2.4.x
+# Docker Magento
 
+Docker magento support
+
+* php:7.4.20
+* composer:1.10.16
+* msql:8.0
+* elasticsearch:7.13.2
+* php myadmin
+* cron job
+
+Docker support php libraries
+
+* bcmath
+* ctype
+* curl
+* dom
+* gd
+* hash
+* iconv
+* intl
+* mbstring
+* openssl
+* pdo_mysql
+* simplexml
+* soap
+* spl
+* xsl
+* zip 
+* libxml
+* xdebug 3
+* opache
+* apcu
+* memcached
+* curl
+
+# How to use
 ## Init project
 ```bash
 mv .env.sample .env
+
 Edit config on the .env file
 ```
 
@@ -18,15 +54,13 @@ openssl req -newkey rsa:4096 \
             -keyout local.key
 ```
 
-## Start docker
+## Start/Stop docker
 ```bash
 docker-compose up -d
-```
-
-## Stop docker
-```bash
 docker-compose down -v
+
 ```
 
-* Move database to backup folder, It'll help you to import database.
-* For XDebug you should map source on local to source on server
+## Move database to backup folder, It'll help you to import database.
+
+Go to mysqladmin: http://localhost:8080
