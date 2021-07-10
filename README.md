@@ -4,7 +4,7 @@ Docker magento support
 
 * php:7.4.20
 * composer:1.10.16
-* msql:8.0
+* mysql:8.0
 * elasticsearch:7.13.2
 * php myadmin
 * cron job
