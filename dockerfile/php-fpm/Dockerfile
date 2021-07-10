@@ -23,7 +23,7 @@ RUN apt-get update \
 		openssl \
 		git \
 		gnupg2 \
-        vim \
+        	vim \
 		telnet \
 		cron
 
@@ -42,7 +42,7 @@ RUN apt-get install -y \
 		dom \
 		xmlrpc \
 		xsl \
-        simplexml
+        	simplexml
 
 # images
 RUN apt-get install -y \
@@ -102,12 +102,10 @@ RUN docker-php-ext-install -j$(nproc) \
 	sysvmsg \
 	sysvsem \
 	sysvshm \
-    ctype \
-    iconv
+    	ctype \
+    	iconv
 
 # Install form source
-
-ENV EXT_APCU_VERSION=5.1.17
 
 # ext-opache
 RUN docker-php-source extract \
@@ -117,20 +115,23 @@ RUN docker-php-source extract \
 	&& echo "opcache.consistency_checks=0" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
 	&& echo "opcache.validate_timestamps=0" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
 	&& echo "opcache.enable_cli=1" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini
+
 # ext-apcu
+ENV EXT_APCU_VERSION=5.1.17
+
 RUN mkdir -p /usr/src/php/ext/apcu \
-    && curl -fsSL https://github.com/krakjoe/apcu/archive/v$EXT_APCU_VERSION.tar.gz | tar xvz -C /usr/src/php/ext/apcu --strip 1 \
-    && docker-php-ext-install apcu \
+    	&& curl -fsSL https://github.com/krakjoe/apcu/archive/v$EXT_APCU_VERSION.tar.gz | tar xvz -C /usr/src/php/ext/apcu --strip 1 \
+    	&& docker-php-ext-install apcu \
 	&& echo "[apcu]" >> /usr/local/etc/php/conf.d/docker-php-ext-apcu.ini \
 	&& echo "apc.enabled=1" >> /usr/local/etc/php/conf.d/docker-php-ext-apcu.ini
 
 # x-debug
 RUN pecl install xdebug-3.0.4 \
-    && docker-php-ext-enable xdebug \
-    && echo "xdebug.mode=debug,develop" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
-    && echo "xdebug.start_with_request=yes" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
-    && echo "xdebug.remote_port=9003" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
-    && echo "xdebug.discover_client_host=true" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    	&& docker-php-ext-enable xdebug \
+    	&& echo "xdebug.mode=debug,develop" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    	&& echo "xdebug.start_with_request=yes" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    	&& echo "xdebug.remote_port=9003" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    	&& echo "xdebug.discover_client_host=true" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
 	&& echo "xdebug.client_host=host.docker.internal" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 # clean up	
@@ -139,7 +140,7 @@ RUN docker-php-source delete
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
 RUN cd /usr/local/etc/php/conf.d/ && \
-  echo 'memory_limit = 2G' >> /usr/local/etc/php/conf.d/docker-php-memlimit.ini
+	echo 'memory_limit = 2G' >> /usr/local/etc/php/conf.d/docker-php-memlimit.ini
 
 # RUN curl -Ls https://raw.githubusercontent.com/newrelic/newrelic-cli/master/scripts/install.sh | bash && NEW_RELIC_API_KEY=NRAK-JVXF2L7SUF78MQW0O27LTTMMHP1 NEW_RELIC_ACCOUNT_ID=3195151 /usr/local/bin/newrelic install
 
