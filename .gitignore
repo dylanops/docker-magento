@@ -5,6 +5,7 @@ log
 mysql
 .idea
 .vs
+*.env
 
 conf/nginx/*.crt
 conf/nginx/*.key
