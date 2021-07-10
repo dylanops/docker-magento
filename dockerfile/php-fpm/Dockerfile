@@ -107,24 +107,6 @@ RUN docker-php-ext-install -j$(nproc) \
 
 # Install form source
 
-# ext-opache
-RUN docker-php-source extract \
-	&& docker-php-ext-enable opcache \
-	&& echo "opcache.memory_consumption=512MB" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
-	&& echo "opcache.max_accelerated_files=60000" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
-	&& echo "opcache.consistency_checks=0" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
-	&& echo "opcache.validate_timestamps=0" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
-	&& echo "opcache.enable_cli=1" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini
-
-# ext-apcu
-ENV EXT_APCU_VERSION=5.1.17
-
-RUN mkdir -p /usr/src/php/ext/apcu \
-    	&& curl -fsSL https://github.com/krakjoe/apcu/archive/v$EXT_APCU_VERSION.tar.gz | tar xvz -C /usr/src/php/ext/apcu --strip 1 \
-    	&& docker-php-ext-install apcu \
-	&& echo "[apcu]" >> /usr/local/etc/php/conf.d/docker-php-ext-apcu.ini \
-	&& echo "apc.enabled=1" >> /usr/local/etc/php/conf.d/docker-php-ext-apcu.ini
-
 # x-debug
 RUN pecl install xdebug-3.0.4 \
     	&& docker-php-ext-enable xdebug \
