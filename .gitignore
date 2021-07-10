@@ -1,6 +1,7 @@
 # Git ignore
 src
-backup
+backup/*.sql
+backup/*.sql.gz
 log
 mysql
 .idea
