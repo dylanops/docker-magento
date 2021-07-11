@@ -1,6 +1,6 @@
 FROM php:7.4.20-fpm
 
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=1.10.16
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=2.1.3
 
 # Locales
 RUN apt-get update \
