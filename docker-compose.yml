@@ -18,7 +18,7 @@ services:
       - app
 
   php:
-    build: './dockerfile/php-fpm'
+    image: dylanops/php:7.4
     restart: always
     container_name: php
     volumes:
@@ -32,9 +32,10 @@ services:
       - "host.docker.internal:host-gateway"
 
   cron:
-    build: './dockerfile/php-fpm'
+    image: dylanops/cron:7.4
     restart: always
     container_name: cron
+    tty: true
     volumes:
       - ./conf/php/php.ini:/usr/local/etc/php.ini
       - ${PROJECT_PATH}:/var/www/html

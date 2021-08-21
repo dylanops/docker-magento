@@ -1,5 +1,15 @@
-# Docker magento 2.4.x
-Docker support libraries
+# Docker Magento
+
+Docker magento support
+
+* php:7.4.20
+* composer:2.1.3
+* mysql:8.0
+* elasticsearch:7.13.2
+* php myadmin
+* cron job
+
+Docker support php libraries
 
 * bcmath
 * ctype
@@ -16,11 +26,13 @@ Docker support libraries
 * soap
 * spl
 * xsl
-* zip 
+* zip
 * libxml
 * xdebug 3
 * opache
-* acpu
+* apcu
+* memcached
+* curl
 
 # How to use
 ## Init project
@@ -42,14 +54,11 @@ openssl req -newkey rsa:4096 \
             -keyout local.key
 ```
 
-## Start docker
+## Start/Stop docker
 ```bash
 docker-compose up -d
-```
-
-## Stop docker
-```bash
 docker-compose down -v
+
 ```
 
 ## Move database to backup folder, It'll help you to import database.
@@ -59,5 +68,6 @@ docker-compose down -v
 ![Step 1](./backup/debug1.png)
 ![Step 2](./backup/debug2.png)
 ![Step 3](./backup/debug3.png)
+
 
 Go to mysqladmin: http://localhost:8080
