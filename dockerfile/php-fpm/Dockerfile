@@ -1,4 +1,4 @@
-FROM php:7.4.20-fpm
+FROM php:7.3.29-fpm
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=2.1.3
 
@@ -43,17 +43,6 @@ RUN apt-get install -y \
 		xmlrpc \
 		xsl \
         	simplexml
-
-# images
-RUN apt-get install -y \
-	libfreetype6-dev \
-	libjpeg62-turbo-dev \
-	libpng-dev \
-	libgd-dev \
-	&& docker-php-ext-configure gd --with-freetype --with-jpeg \
-	&& docker-php-ext-install -j$(nproc) \
-		gd \
-		exif
 
 # database
 RUN docker-php-ext-install -j$(nproc) \
@@ -105,6 +94,23 @@ RUN docker-php-ext-install -j$(nproc) \
     	ctype \
     	iconv
 
+# images
+RUN apt-get install -y \
+    libwebp-dev \
+    libjpeg62-turbo-dev \
+    libpng-dev libxpm-dev \
+    libfreetype6-dev
+
+RUN docker-php-ext-configure gd \
+    --with-gd \
+    --with-webp-dir \
+    --with-jpeg-dir \
+    --with-png-dir \
+    --with-zlib-dir \
+    --with-xpm-dir \
+    --with-freetype-dir && \
+    docker-php-ext-install gd
+
 # Install form source
 
 # x-debug
@@ -116,7 +122,7 @@ RUN pecl install xdebug-3.0.4 \
     	&& echo "xdebug.discover_client_host=true" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
 	&& echo "xdebug.client_host=host.docker.internal" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
-# clean up	
+# clean up
 RUN docker-php-source delete
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
