@@ -44,17 +44,6 @@ RUN apt-get install -y \
 		xsl \
         	simplexml
 
-# images
-RUN apt-get install -y \
-	libfreetype6-dev \
-	libjpeg62-turbo-dev \
-	libpng-dev \
-	libgd-dev \
-	&& docker-php-ext-configure gd --with-freetype --with-jpeg \
-	&& docker-php-ext-install -j$(nproc) \
-		gd \
-		exif
-
 # database
 RUN docker-php-ext-install -j$(nproc) \
 	mysqli \
@@ -94,6 +83,17 @@ RUN apt-get install -y \
     libcurl4-openssl-dev \
     && docker-php-ext-install -j$(nproc) curl
 
+# images
+RUN apt-get install -y \
+	libfreetype6-dev \
+	libjpeg62-turbo-dev \
+	libpng-dev \
+	libgd-dev \
+	&& docker-php-ext-configure gd --with-freetype --with-jpeg \
+	&& docker-php-ext-install -j$(nproc) \
+		gd \
+		exif
+
 # others
 RUN docker-php-ext-install -j$(nproc) \
 	soap \
@@ -125,7 +125,7 @@ RUN mkdir -p /usr/src/php/ext/apcu \
 	&& echo "[apcu]" >> /usr/local/etc/php/conf.d/docker-php-ext-apcu.ini \
 	&& echo "apc.enabled=1" >> /usr/local/etc/php/conf.d/docker-php-ext-apcu.ini
 
-# clean up	
+# clean up
 RUN docker-php-source delete
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"

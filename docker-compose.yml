@@ -18,7 +18,8 @@ services:
       - app
 
   php:
-    image: dylanops/php:7.4
+    build: './dockerfile/php-fpm'
+    image: dylanops/php-prod:7.4
     restart: always
     container_name: php
     volumes:
@@ -28,7 +29,8 @@ services:
       - app
 
   cron:
-    image: dylanops/cron:7.4
+    build: './dockerfile/php-cli'
+    image: dylanops/cron-prod:7.4
     restart: always
     container_name: cron
     tty: true
