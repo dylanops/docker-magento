@@ -23,12 +23,19 @@ services:
     restart: always
     container_name: php
     volumes:
-      - ./conf/php/php.ini:/usr/local/etc/php.ini
+      - ./conf/php/php.ini:/usr/local/etc/php/php.ini
+      - ./conf/blackfire/blackfire.ini:/usr/local/etc/php/conf.d/blackfire.ini
+      - ./conf/blackfire/agent:/etc/blackfire/agent
       - ${PROJECT_PATH}:/var/www/html
     networks:
       - app
     environment:
       PHP_IDE_CONFIG: 'serverName=web'
+      BLACKFIRE_LOG_LEVEL: ${BLACKFIRE_LOG_LEVEL}
+      BLACKFIRE_SERVER_ID: ${BLACKFIRE_SERVER_ID}
+      BLACKFIRE_SERVER_TOKEN: ${BLACKFIRE_SERVER_TOKEN}
+      BLACKFIRE_CLIENT_ID: ${BLACKFIRE_CLIENT_ID}
+      BLACKFIRE_CLIENT_TOKEN: ${BLACKFIRE_CLIENT_TOKEN}
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
@@ -48,6 +55,7 @@ services:
     image: mysql:8.0
     container_name: mysql
     volumes:
+      - ./conf/mysql/mysql.cnf:/etc/mysql/mysql.cnf
       - ./backup:/var/backup
       - ./mysql:/var/lib/mysql
     environment:

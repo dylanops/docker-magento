@@ -2,12 +2,13 @@
 
 Docker magento support
 
-* php:7.4.20
+* php:7.3.20
 * composer:2.1.3
 * mysql:8.0
 * elasticsearch:7.13.2
 * php myadmin
 * cron job
+* blackfire
 
 Docker support php libraries
 
@@ -59,6 +60,12 @@ openssl req -newkey rsa:4096 \
 docker-compose up -d
 docker-compose down -v
 
+```
+
+## Start blackfire
+```bash
+docker exec -ti --user root php bash
+blackfire agent:start &
 ```
 
 ## Move database to backup folder, It'll help you to import database.
