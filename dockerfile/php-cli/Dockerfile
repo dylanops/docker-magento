@@ -23,7 +23,7 @@ RUN apt-get update \
 		openssl \
 		git \
 		gnupg2 \
-        	vim \
+		vim \
 		telnet \
 		cron
 
@@ -42,7 +42,7 @@ RUN apt-get install -y \
 		dom \
 		xmlrpc \
 		xsl \
-        	simplexml
+		simplexml
 
 # database
 RUN docker-php-ext-install -j$(nproc) \
@@ -52,9 +52,9 @@ RUN docker-php-ext-install -j$(nproc) \
 
 # strings
 RUN apt-get install -y libonig-dev \
-    && docker-php-ext-install -j$(nproc) \
-	    gettext \
-	    mbstring
+	&& docker-php-ext-install -j$(nproc) \
+	gettext \
+	mbstring
 
 # math
 RUN apt-get install -y libgmp-dev \
@@ -80,8 +80,8 @@ RUN apt-get install -y \
 # curl
 RUN apt-get install -y \
 	libcurl4 \
-    libcurl4-openssl-dev \
-    && docker-php-ext-install -j$(nproc) curl
+	libcurl4-openssl-dev \
+	&& docker-php-ext-install -j$(nproc) curl
 
 # images
 RUN apt-get install -y \
@@ -102,19 +102,28 @@ RUN docker-php-ext-install -j$(nproc) \
 	sysvmsg \
 	sysvsem \
 	sysvshm \
-    	ctype \
-    	iconv
+	ctype \
+	iconv
 
 # Install form source
 
-# x-debug
-RUN pecl install xdebug-3.0.4 \
-    	&& docker-php-ext-enable xdebug \
-    	&& echo "xdebug.mode=debug,develop" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
-    	&& echo "xdebug.start_with_request=yes" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
-    	&& echo "xdebug.remote_port=9003" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
-    	&& echo "xdebug.discover_client_host=true" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
-	&& echo "xdebug.client_host=host.docker.internal" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+# ext-opache
+RUN docker-php-source extract \
+	&& docker-php-ext-enable opcache \
+	&& echo "opcache.memory_consumption=512MB" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
+	&& echo "opcache.max_accelerated_files=60000" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
+	&& echo "opcache.consistency_checks=0" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
+	&& echo "opcache.validate_timestamps=0" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
+	&& echo "opcache.enable_cli=1" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini
+
+# ext-apcu
+ENV EXT_APCU_VERSION=5.1.17
+
+RUN mkdir -p /usr/src/php/ext/apcu \
+	&& curl -fsSL https://github.com/krakjoe/apcu/archive/v$EXT_APCU_VERSION.tar.gz | tar xvz -C /usr/src/php/ext/apcu --strip 1 \
+	&& docker-php-ext-install apcu \
+	&& echo "[apcu]" >> /usr/local/etc/php/conf.d/docker-php-ext-apcu.ini \
+	&& echo "apc.enabled=1" >> /usr/local/etc/php/conf.d/docker-php-ext-apcu.ini
 
 # clean up
 RUN docker-php-source delete

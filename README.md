@@ -6,7 +6,6 @@ Docker magento support
 * composer:1.10.16
 * mysql:8.0
 * elasticsearch:7.13.2
-* cron job
 
 Docker support php libraries
 
@@ -34,11 +33,15 @@ Docker support php libraries
 * curl
 
 # How to use
+
 ## Init project
 ```bash
 mv .env.sample .env
 
+mkdir -p data/backup data/es data/mysql
+
 Edit config on the .env file
+
 ```
 
 ## Create self credentials
@@ -57,6 +60,31 @@ openssl req -newkey rsa:4096 \
 ```bash
 docker-compose up -d
 docker-compose down -v
+
+```
+
+## Setup magento
+```bash
+php bin/magento setup:install --base-url=https://magento.local/ \
+--db-host=mysql --db-name=magento --db-user=root --db-password=123456 \
+--admin-firstname=Dylan --admin-lastname=Ngo --admin-email=it.dylanngo@gmail.com \
+--admin-user=admin --admin-password=admin123 --language=vi_VN --currency=VND --timezone=Asia/Ho_Chi_Minh \
+--session-save=db --use-rewrites=1 --use-secure=1 --use-secure-admin=1 --elasticsearch-host=elasticsearch --elasticsearch-port=9200 --search-engine=elasticsearch7 --elasticsearch-index-prefix=pdm --elasticsearch-enable-auth=false  --cleanup-database
+```
+
+## Config nginx domain/ssl
+```
+vim conf/nginx/default.conf
+
+```
+
+## Edit hosts file in local workstation
+```
+vim /etc/hosts
+
+Add line
+
+127.0.0.1 magento.local
 
 ```
 

@@ -23,7 +23,7 @@ RUN apt-get update \
 		openssl \
 		git \
 		gnupg2 \
-        	vim \
+		vim \
 		telnet \
 		cron
 
@@ -42,7 +42,7 @@ RUN apt-get install -y \
 		dom \
 		xmlrpc \
 		xsl \
-        	simplexml
+		simplexml
 
 # database
 RUN docker-php-ext-install -j$(nproc) \
@@ -52,9 +52,9 @@ RUN docker-php-ext-install -j$(nproc) \
 
 # strings
 RUN apt-get install -y libonig-dev \
-    && docker-php-ext-install -j$(nproc) \
-	    gettext \
-	    mbstring
+	&& docker-php-ext-install -j$(nproc) \
+	gettext \
+	mbstring
 
 # math
 RUN apt-get install -y libgmp-dev \
@@ -80,8 +80,8 @@ RUN apt-get install -y \
 # curl
 RUN apt-get install -y \
 	libcurl4 \
-    libcurl4-openssl-dev \
-    && docker-php-ext-install -j$(nproc) curl
+	libcurl4-openssl-dev \
+	&& docker-php-ext-install -j$(nproc) curl
 
 # images
 RUN apt-get install -y \
@@ -102,8 +102,8 @@ RUN docker-php-ext-install -j$(nproc) \
 	sysvmsg \
 	sysvsem \
 	sysvshm \
-    	ctype \
-    	iconv
+	ctype \
+	iconv
 
 # Install form source
 
@@ -120,8 +120,8 @@ RUN docker-php-source extract \
 ENV EXT_APCU_VERSION=5.1.17
 
 RUN mkdir -p /usr/src/php/ext/apcu \
-    	&& curl -fsSL https://github.com/krakjoe/apcu/archive/v$EXT_APCU_VERSION.tar.gz | tar xvz -C /usr/src/php/ext/apcu --strip 1 \
-    	&& docker-php-ext-install apcu \
+	&& curl -fsSL https://github.com/krakjoe/apcu/archive/v$EXT_APCU_VERSION.tar.gz | tar xvz -C /usr/src/php/ext/apcu --strip 1 \
+	&& docker-php-ext-install apcu \
 	&& echo "[apcu]" >> /usr/local/etc/php/conf.d/docker-php-ext-apcu.ini \
 	&& echo "apc.enabled=1" >> /usr/local/etc/php/conf.d/docker-php-ext-apcu.ini
 
