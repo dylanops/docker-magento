@@ -41,8 +41,8 @@ services:
     image: mysql:8.0
     container_name: mysql
     volumes:
-      - ./backup:/var/backup
-      - ./mysql:/var/lib/mysql
+      - ./data/backup:/var/backup
+      - ./data/mysql:/var/lib/mysql
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
@@ -70,6 +70,8 @@ services:
   elasticsearch:
     image: elasticsearch:7.13.2
     container_name: elasticsearch
+    volumes:
+      - ./data/es:/usr/share/elasticsearch/data
     ports:
       - "9300:9300"
       - "9200:9200"

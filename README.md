@@ -61,13 +61,21 @@ docker-compose down -v
 
 ```
 
+## Command setup magento
+```bash
+php bin/magento setup:install --base-url=https://magento.local/ \
+--db-host=mysql --db-name=m243cc --db-user=root --db-password=123456 \
+--admin-firstname=Dylan --admin-lastname=Ngo --admin-email=it.tinhngo@gmail.com \
+--admin-user=admin --admin-password=admin123 --language=vi_VN --currency=VND --timezone=Asia/Ho_Chi_Minh --session-save=db --use-rewrites=1 --use-secure=1 --use-secure-admin=1 --elasticsearch-host=elasticsearch --elasticsearch-port=9200 --search-engine=elasticsearch7 --elasticsearch-index-prefix=pdm --elasticsearch-enable-auth=false  --cleanup-database
+```
+
 ## Move database to backup folder, It'll help you to import database.
 
 ## XDebug config with PhpStorm
 
-![Step 1](./backup/debug1.png)
-![Step 2](./backup/debug2.png)
-![Step 3](./backup/debug3.png)
+![Step 1](./data/backup/debug1.png)
+![Step 2](./data/backup/debug2.png)
+![Step 3](./data/backup/debug3.png)
 
 
 Go to mysqladmin: http://localhost:8080

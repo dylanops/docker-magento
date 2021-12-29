@@ -1,0 +1,25 @@
+upstream fastcgi_backend {
+    server  php:9000;
+}
+
+server {
+    listen 80;
+    server_name magento.local;
+    set $MAGE_ROOT /var/www/html;
+    set $MAGE_DEBUG_SHOW_ARGS 1;
+    include /var/www/html/nginx.conf.sample;
+}
+
+server {
+    listen 443 ssl;
+    server_name magento.local;
+    set $MAGE_ROOT /var/www/html;
+    set $MAGE_DEBUG_SHOW_ARGS 1;
+    include /var/www/html/nginx.conf.sample;
+
+    keepalive_timeout   70;
+    ssl_certificate     /var/www/ssl/local.crt;
+    ssl_certificate_key /var/www/ssl/local.key;
+    ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
+    ssl_ciphers         HIGH:!aNULL:!MD5;
+}
