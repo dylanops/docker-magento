@@ -18,22 +18,9 @@ services:
       - app
 
   php:
-    build: './dockerfile/php-fpm'
     image: dylanops/php-prod:7.4
     restart: always
     container_name: php
-    volumes:
-      - ./conf/php/php.ini:/usr/local/etc/php.ini
-      - ${PROJECT_PATH}:/var/www/html
-    networks:
-      - app
-
-  cron:
-    build: './dockerfile/php-cli'
-    image: dylanops/cron-prod:7.4
-    restart: always
-    container_name: cron
-    tty: true
     volumes:
       - ./conf/php/php.ini:/usr/local/etc/php.ini
       - ${PROJECT_PATH}:/var/www/html
@@ -44,33 +31,23 @@ services:
     image: mysql:8.0
     container_name: mysql
     volumes:
-      - ./backup:/var/backup
-      - ./mysql:/var/lib/mysql
+      - ./data/backup:/var/backup
+      - ./data/mysql:/var/lib/mysql
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-    networks:
-      - app
-
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    container_name: phpmyadmin
-    links:
-      - mysql
-    environment:
-      PMA_HOST: mysql
-      PMA_PORT: 3306
-      PMA_ARBITRARY: 1
     ports:
-      - 8080:80
+      - "3306:3306"
     networks:
       - app
 
   elasticsearch:
     image: elasticsearch:7.13.2
     container_name: elasticsearch
+    volumes:
+      - ./data/es:/usr/share/elasticsearch/data
     ports:
       - "9300:9300"
       - "9200:9200"

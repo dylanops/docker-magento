@@ -6,7 +6,6 @@ Docker magento support
 * composer:1.10.16
 * mysql:8.0
 * elasticsearch:7.13.2
-* php myadmin
 * cron job
 
 Docker support php libraries
@@ -26,7 +25,7 @@ Docker support php libraries
 * soap
 * spl
 * xsl
-* zip 
+* zip
 * libxml
 * xdebug 3
 * opache
@@ -62,5 +61,3 @@ docker-compose down -v
 ```
 
 ## Move database to backup folder, It'll help you to import database.
-
-Go to mysqladmin: http://localhost:8080
