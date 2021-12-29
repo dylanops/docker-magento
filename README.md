@@ -7,7 +7,7 @@ Docker magento support
 * mysql:8.0
 * elasticsearch:7.13.2
 * php myadmin
-* cron job
+* blackfire
 
 Docker support php libraries
 

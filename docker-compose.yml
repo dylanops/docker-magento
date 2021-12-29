@@ -29,20 +29,13 @@ services:
       - app
     environment:
       PHP_IDE_CONFIG: 'serverName=web'
+      BLACKFIRE_LOG_LEVEL: ${BLACKFIRE_LOG_LEVEL}
+      BLACKFIRE_SERVER_ID: ${BLACKFIRE_SERVER_ID}
+      BLACKFIRE_SERVER_TOKEN: ${BLACKFIRE_SERVER_TOKEN}
+      BLACKFIRE_CLIENT_ID: ${BLACKFIRE_CLIENT_ID}
+      BLACKFIRE_CLIENT_TOKEN: ${BLACKFIRE_CLIENT_TOKEN}
     extra_hosts:
       - "host.docker.internal:host-gateway"
-
-  cron:
-    build: './dockerfile/php-cli'
-    image: dylanops/cron-dev:7.4
-    restart: always
-    container_name: cron
-    tty: true
-    volumes:
-      - ./conf/php/php.ini:/usr/local/etc/php.ini
-      - ${PROJECT_PATH}:/var/www/html
-    networks:
-      - app
 
   mysql:
     image: mysql:8.0
@@ -55,6 +48,8 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    ports:
+      - 3306:3306
     networks:
       - app
 
