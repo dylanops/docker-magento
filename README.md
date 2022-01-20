@@ -90,7 +90,6 @@ Add line
 
 ## Move database to backup folder, It'll help you to import database.
 
-
 ## OPCache Toolkit
 ```bash
 # Clean OPCache

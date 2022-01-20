@@ -18,7 +18,7 @@ services:
       - app
 
   php:
-    image: dylanops/php-prod:7.4
+    image: dylanops/php:7.4
     restart: always
     container_name: php
     volumes:
