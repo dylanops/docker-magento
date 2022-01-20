@@ -18,22 +18,36 @@ services:
       - app
 
   php:
+    build: './dockerfile/php-fpm'
     image: dylanops/php:7.4
     restart: always
     container_name: php
     volumes:
       - ./conf/php/php.ini:/usr/local/etc/php.ini
+      - ./conf/php/xdebug:/usr/local/bin/xdebug
       - ./conf/php/opcache:/usr/local/bin/opcache
+      - ./conf/php/blackfiret:/usr/local/bin/blackfiret
+      - ./conf/blackfire/blackfire.ini:/usr/local/etc/php/conf.d/blackfire.ini
+      - ./conf/blackfire/agent:/etc/blackfire/agent
       - ${PROJECT_PATH}:/var/www/html
     networks:
       - app
+    environment:
+      PHP_IDE_CONFIG: 'serverName=web'
+      BLACKFIRE_LOG_LEVEL: ${BLACKFIRE_LOG_LEVEL}
+      BLACKFIRE_SERVER_ID: ${BLACKFIRE_SERVER_ID}
+      BLACKFIRE_SERVER_TOKEN: ${BLACKFIRE_SERVER_TOKEN}
+      BLACKFIRE_CLIENT_ID: ${BLACKFIRE_CLIENT_ID}
+      BLACKFIRE_CLIENT_TOKEN: ${BLACKFIRE_CLIENT_TOKEN}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   mysql:
     image: mysql:8.0
     container_name: mysql
     volumes:
       - ./data/backup:/var/backup
-      - ./data/mysql:/var/lib/mysql
+      - ./data/mysql-data:/var/lib/mysql
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
@@ -44,11 +58,25 @@ services:
     networks:
       - app
 
+  # phpmyadmin:
+  #   image: phpmyadmin/phpmyadmin
+  #   container_name: phpmyadmin
+  #   links:
+  #     - mysql
+  #   environment:
+  #     PMA_HOST: mysql
+  #     PMA_PORT: 3306
+  #     PMA_ARBITRARY: 1
+  #   ports:
+  #     - 8080:80
+  #   networks:
+  #     - app
+
   elasticsearch:
     image: elasticsearch:7.13.2
     container_name: elasticsearch
     volumes:
-      - ./data/es:/usr/share/elasticsearch/data
+      - ./data/es-data:/usr/share/elasticsearch/data
     ports:
       - "9300:9300"
       - "9200:9200"

@@ -3,9 +3,14 @@
 Docker magento support
 
 * php:7.4.20
-* composer:1.10.16
+* composer:2.1.3
 * mysql:8.0
 * elasticsearch:7.13.2
+<<<<<<< HEAD
+=======
+* php myadmin
+* blackfire
+>>>>>>> dev-74
 
 Docker support php libraries
 
@@ -38,7 +43,7 @@ Docker support php libraries
 ```bash
 mv .env.sample .env
 
-mkdir -p data/backup data/es data/mysql
+mkdir -p data/backup data/es-data data/mysql-data
 
 Edit config on the .env file
 
@@ -85,10 +90,15 @@ vim /etc/hosts
 Add line
 
 127.0.0.1 magento.local
-
 ```
 
 ## Move database to backup folder, It'll help you to import database.
+
+## XDebug config with PhpStorm
+
+![Step 1](./data/backup/debug1.png)
+![Step 2](./data/backup/debug2.png)
+![Step 3](./data/backup/debug3.png)
 
 ## OPCache Toolkit
 ```bash
@@ -106,3 +116,22 @@ Enter: on
 
 Enter: off
 ```
+
+## XDebug Toolkit
+```
+docker exec -ti php bash
+
+xdebug -h
+
+# Enable XDebug
+xdebug
+
+Enter: on
+
+# Disable XDebug
+xdebug
+
+Enter: off
+```
+
+Go to mysqladmin: http://localhost:8080

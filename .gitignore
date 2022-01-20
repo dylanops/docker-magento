@@ -12,3 +12,4 @@ mysql
 
 conf/nginx/*.crt
 conf/nginx/*.key
+conf/nginx/*.conf

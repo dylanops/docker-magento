@@ -6,13 +6,12 @@
 Help()
 {
     echo
-    echo "OPCache Toolkit"
+    echo "XDebug Toolkit"
     echo
-    echo "Syntax: scriptTemplate [-h|on|off|clean]"
+    echo "Syntax: scriptTemplate [-h|on|off]"
     echo "Options:"
-    echo "on         Enable OPCache."
-    echo "off        Disable OPCache."
-    echo "clean      Clean OPCache."
+    echo "on         Enable xdebug."
+    echo "off        Disable xdebug."
     echo
 }
 
@@ -21,7 +20,7 @@ Help()
 ################################################################################
 Main(){
     echo
-    echo "OPCache Toolkit"
+    echo "XDebug Toolkit"
     echo
     echo "-h               This help"
 }
@@ -41,24 +40,19 @@ done
 echo
 read -p "Enter mode: " VAR1
 
-# OPCache mode
+# Xdebug mode
 ON="on"
 OFF="off"
-CLEAN="clean"
 
 if [[ "$VAR1" = "$ON" ]]; then
-    cp /tmp/docker-php-ext-opcache.ini /usr/local/etc/php/conf.d/ \
+    cp /tmp/docker-php-ext-xdebug.ini /usr/local/etc/php/conf.d/ \
     && kill -USR2 1 \
-    && echo "Enable OPCache was completed."
+    && echo "Enable xdebug was completed."
 elif [[ "$VAR1" = "$OFF" ]]; then
-    mv /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini /tmp/ \
+    mv /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini /tmp/ \
     && kill -USR2 1 \
-    && echo "Disable OPCache was completed."
-elif [[ "$VAR1" = "$CLEAN" ]]; then
-    kill -USR2 1
-    echo "Clean OPCache was completed."
+    && echo "Disable xdebug was completed."
 else
-    echo
     echo "Error: Invalid option"
     Main
 fi
