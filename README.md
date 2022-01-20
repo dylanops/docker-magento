@@ -78,4 +78,21 @@ php bin/magento setup:install --base-url=https://magento.local/ \
 ![Step 3](./data/backup/debug3.png)
 
 
+## XDebug Toolkit
+```
+docker exec -ti php bash
+
+xdebug -h
+
+# Enable XDebug
+xdebug
+
+Enter: on
+
+# Disable XDebug
+xdebug
+
+Enter: off
+```
+
 Go to mysqladmin: http://localhost:8080
