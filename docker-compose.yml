@@ -23,6 +23,7 @@ services:
     container_name: php
     volumes:
       - ./conf/php/php.ini:/usr/local/etc/php.ini
+      - ./conf/php/opcache:/usr/local/bin/opcache
       - ${PROJECT_PATH}:/var/www/html
     networks:
       - app
