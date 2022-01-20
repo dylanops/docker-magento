@@ -26,7 +26,6 @@ services:
       - ./conf/php/php.ini:/usr/local/etc/php.ini
       - ./conf/php/xdebug:/usr/local/bin/xdebug
       - ./conf/php/opcache:/usr/local/bin/opcache
-      - ./conf/php/blackfiret:/usr/local/bin/blackfiret
       - ./conf/blackfire/blackfire.ini:/usr/local/etc/php/conf.d/blackfire.ini
       - ./conf/blackfire/agent:/etc/blackfire/agent
       - ${PROJECT_PATH}:/var/www/html
@@ -34,11 +33,6 @@ services:
       - app
     environment:
       PHP_IDE_CONFIG: 'serverName=web'
-      BLACKFIRE_LOG_LEVEL: ${BLACKFIRE_LOG_LEVEL}
-      BLACKFIRE_SERVER_ID: ${BLACKFIRE_SERVER_ID}
-      BLACKFIRE_SERVER_TOKEN: ${BLACKFIRE_SERVER_TOKEN}
-      BLACKFIRE_CLIENT_ID: ${BLACKFIRE_CLIENT_ID}
-      BLACKFIRE_CLIENT_TOKEN: ${BLACKFIRE_CLIENT_TOKEN}
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
