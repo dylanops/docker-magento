@@ -24,6 +24,9 @@ services:
     container_name: php
     volumes:
       - ./conf/php/php.ini:/usr/local/etc/php.ini
+      - ./conf/php/xdebug:/usr/local/bin/xdebug
+      - ./conf/blackfire/blackfire.ini:/usr/local/etc/php/conf.d/blackfire.ini
+      - ./conf/blackfire/agent:/etc/blackfire/agent
       - ${PROJECT_PATH}:/var/www/html
     networks:
       - app
@@ -53,19 +56,19 @@ services:
     networks:
       - app
 
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    container_name: phpmyadmin
-    links:
-      - mysql
-    environment:
-      PMA_HOST: mysql
-      PMA_PORT: 3306
-      PMA_ARBITRARY: 1
-    ports:
-      - 8080:80
-    networks:
-      - app
+  # phpmyadmin:
+  #   image: phpmyadmin/phpmyadmin
+  #   container_name: phpmyadmin
+  #   links:
+  #     - mysql
+  #   environment:
+  #     PMA_HOST: mysql
+  #     PMA_PORT: 3306
+  #     PMA_ARBITRARY: 1
+  #   ports:
+  #     - 8080:80
+  #   networks:
+  #     - app
 
   elasticsearch:
     image: elasticsearch:7.13.2

@@ -1,0 +1,57 @@
+#!/bin/bash
+
+################################################################################
+# Help                                                                         #
+################################################################################
+Help()
+{
+    echo
+    echo "XDebug Toolkit"
+    echo
+    echo "Syntax: scriptTemplate [-h|on|off]"
+    echo "Options:"
+    echo "on         Enable xdebug."
+    echo "off        Disable xdebug."
+    echo
+}
+
+################################################################################
+# Main                                                                         #
+################################################################################
+Main(){
+    echo
+    echo "XDebug Toolkit"
+    echo
+    echo "-h               This help"
+}
+
+# Get the options
+while getopts ":h" option; do
+   case $option in
+      h) # display Help
+         Help
+         exit;;
+     \?) # incorrect option
+         echo "Error: Invalid option"
+         exit;;
+   esac
+done
+
+echo
+read -p "Enter mode: " VAR1
+
+# Xdebug mode
+ON="on"
+OFF="off"
+
+if [[ "$VAR1" = "$ON" ]]; then
+    cp /tmp/docker-php-ext-xdebug.ini /usr/local/etc/php/conf.d/
+    kill -USR2 1
+    echo "Enable xdebug was completed."
+elif [[ "$VAR1" = "$OFF" ]]; then
+    mv /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini /tmp/
+    kill -USR2 1
+    echo "Disable xdebug was completed."
+else
+    Main
+fi
