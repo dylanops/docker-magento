@@ -6,11 +6,7 @@ Docker magento support
 * composer:2.1.3
 * mysql:8.0
 * elasticsearch:7.13.2
-<<<<<<< HEAD
-=======
-* php myadmin
-* blackfire
->>>>>>> dev-74
+* php-myadmin
 
 Docker support php libraries
 
@@ -79,7 +75,7 @@ php bin/magento setup:install --base-url=https://magento.local/ \
 
 ## Config nginx domain/ssl
 ```
-vim conf/nginx/default.conf
+cp conf/nginx/default.conf.sample conf/nginx/default.conf
 
 ```
 
