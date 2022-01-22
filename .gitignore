@@ -2,8 +2,8 @@
 src
 data/backup/*.sql
 data/backup/*.sql.gz
-data/es/*
-data/mysql/*
+data/es-data/*
+data/mysql-data/*
 log
 mysql
 .idea
