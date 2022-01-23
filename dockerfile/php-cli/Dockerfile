@@ -43,8 +43,6 @@ RUN apt-get install -y \
 		xmlrpc \
 		xsl \
 		simplexml
-<<<<<<< HEAD
-=======
 
 # images
 RUN apt-get install -y \
@@ -56,7 +54,6 @@ RUN apt-get install -y \
 	&& docker-php-ext-install -j$(nproc) \
 		gd \
 		exif
->>>>>>> dev-74
 
 # database
 RUN docker-php-ext-install -j$(nproc) \
@@ -124,11 +121,11 @@ RUN docker-php-ext-install -j$(nproc) \
 # ext-opache
 RUN docker-php-source extract \
 	&& docker-php-ext-enable opcache \
-	&& echo "opcache.memory_consumption=512MB" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
-	&& echo "opcache.max_accelerated_files=60000" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
-	&& echo "opcache.consistency_checks=0" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
-	&& echo "opcache.validate_timestamps=0" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
-	&& echo "opcache.enable_cli=1" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini
+	&& echo "opcache.enable=1" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
+	&& echo "opcache.enable_cli=0" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
+	&& echo "opcache.memory_consumption=356" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
+	&& echo "opcache.max_accelerated_files=100000" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
+	&& echo "opcache.validate_timestamps=0" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini
 
 # ext-apcu
 ENV EXT_APCU_VERSION=5.1.17

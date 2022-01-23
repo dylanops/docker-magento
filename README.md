@@ -98,6 +98,9 @@ Add line
 
 ## OPCache Toolkit
 ```bash
+
+docker exec -ti --user root php bash
+
 # Clean OPCache
 opcache
 
@@ -114,8 +117,9 @@ Enter: off
 ```
 
 ## XDebug Toolkit
-```
-docker exec -ti php bash
+```bash
+
+docker exec -ti --user root php bash
 
 xdebug -h
 
