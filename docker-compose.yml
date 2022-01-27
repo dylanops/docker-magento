@@ -64,18 +64,18 @@ services:
   #   networks:
   #     - app
 
-  elasticsearch:
-    image: elasticsearch:7.13.2
-    container_name: elasticsearch
-    volumes:
-      - ./data/es-data:/usr/share/elasticsearch/data
-    ports:
-      - "9300:9300"
-      - "9200:9200"
-    environment:
-      discovery.type: single-node
-    networks:
-      - app
+  # elasticsearch:
+  #   image: elasticsearch:7.13.2
+  #   container_name: elasticsearch
+  #   volumes:
+  #     - ./data/es-data:/usr/share/elasticsearch/data
+  #   ports:
+  #     - "9300:9300"
+  #     - "9200:9200"
+  #   environment:
+  #     discovery.type: single-node
+  #   networks:
+  #     - app
 networks:
   app:
     driver: bridge

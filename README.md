@@ -135,3 +135,20 @@ Enter: off
 ```
 
 Go to mysqladmin: http://localhost:8080
+
+
+## Setup gitlab CI/CD
+
+```bash
+
+export PRIVATE_KEY=$(cat ./private-key.pem)
+
+echo "$PRIVATE_KEY"
+
+eval $(ssh-agent -s)
+
+echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+
+ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no "$SERVER_USER"@"$SERVER_HOST"
+
+```
