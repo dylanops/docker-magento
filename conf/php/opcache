@@ -3,7 +3,7 @@
 ################################################################################
 # Help                                                                         #
 ################################################################################
-Help()
+HELP()
 {
     echo
     echo "OPCache Toolkit"
@@ -19,46 +19,43 @@ Help()
 ################################################################################
 # Main                                                                         #
 ################################################################################
-Main(){
+MAIN(){
     echo
     echo "OPCache Toolkit"
     echo
     echo "-h               This help"
 }
 
-# Get the options
+ENABLE() {
+    cp /tmp/docker-php-ext-opcache.ini /usr/local/etc/php/conf.d/ \
+    && kill -USR2 1 \
+    && echo "Enable OPCache was completed."
+}
+
+DISABLE() {
+        mv /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini /tmp/ \
+    && kill -USR2 1 \
+    && echo "Disable OPCache was completed."
+}
+
+CLEAN() {
+    kill -USR2 1 && echo "Clean OPCache was completed."
+}
+
+################################################################################
+# Options                                                                      #
+################################################################################
 while getopts ":h" option; do
    case $option in
       h) # display Help
-         Help
-         exit;;
-     \?) # incorrect option
-         echo "Error: Invalid option"
+         HELP
          exit;;
    esac
 done
 
-echo
-read -p "Enter mode: " VAR1
-
-# OPCache mode
-ON="on"
-OFF="off"
-CLEAN="clean"
-
-if [[ "$VAR1" = "$ON" ]]; then
-    cp /tmp/docker-php-ext-opcache.ini /usr/local/etc/php/conf.d/ \
-    && kill -USR2 1 \
-    && echo "Enable OPCache was completed."
-elif [[ "$VAR1" = "$OFF" ]]; then
-    mv /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini /tmp/ \
-    && kill -USR2 1 \
-    && echo "Disable OPCache was completed."
-elif [[ "$VAR1" = "$CLEAN" ]]; then
-    kill -USR2 1
-    echo "Clean OPCache was completed."
-else
-    echo
-    echo "Error: Invalid option"
-    Main
-fi
+case $1 in
+  "on") ENABLE ;;
+  "off") DISABLE ;;
+  "clean") CLEAN ;;
+   *) MAIN ;;
+esac

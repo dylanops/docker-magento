@@ -66,11 +66,11 @@ docker-compose down -v
 
 ## Setup magento
 ```bash
-php bin/magento setup:install --base-url=https://magento.local/ \
+php bin/magento setup:install --base-url=https://mm243cc.local/ \
 --db-host=mysql --db-name=magento --db-user=root --db-password=123456 \
 --admin-firstname=Dylan --admin-lastname=Ngo --admin-email=it.dylanngo@gmail.com \
 --admin-user=admin --admin-password=admin123 --language=vi_VN --currency=VND --timezone=Asia/Ho_Chi_Minh \
---session-save=db --use-rewrites=1 --use-secure=1 --use-secure-admin=1 --elasticsearch-host=elasticsearch --elasticsearch-port=9200 --search-engine=elasticsearch7 --elasticsearch-index-prefix=pdm --elasticsearch-enable-auth=false  --cleanup-database
+--session-save=db --use-rewrites=1 --use-secure=1 --use-secure-admin=1 --elasticsearch-host=elasticsearch --elasticsearch-port=9200 --search-engine=elasticsearch7 --elasticsearch-index-prefix=pdm --elasticsearch-enable-auth=false --cleanup-database
 ```
 
 ## Config nginx domain/ssl
@@ -102,18 +102,15 @@ Add line
 docker exec -ti --user root php bash
 
 # Clean OPCache
-opcache
+opcache clean
 
-Enter: clean
 
 # Enable OPCache
-opcache
-
-Enter: on
+opcache on
 
 # Disable OPCache
+opcache off
 
-Enter: off
 ```
 
 ## XDebug Toolkit
@@ -124,14 +121,11 @@ docker exec -ti --user root php bash
 xdebug -h
 
 # Enable XDebug
-xdebug
-
-Enter: on
+xdebug on
 
 # Disable XDebug
-xdebug
+xdebug off
 
-Enter: off
 ```
 
 Go to mysqladmin: http://localhost:8080

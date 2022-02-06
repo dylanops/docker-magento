@@ -3,7 +3,7 @@
 ################################################################################
 # Help                                                                         #
 ################################################################################
-Help()
+HELP()
 {
     echo
     echo "XDebug Toolkit"
@@ -18,41 +18,38 @@ Help()
 ################################################################################
 # Main                                                                         #
 ################################################################################
-Main(){
+MAIN(){
     echo
     echo "XDebug Toolkit"
     echo
     echo "-h               This help"
 }
 
-# Get the options
-while getopts ":h" option; do
-   case $option in
-      h) # display Help
-         Help
-         exit;;
-     \?) # incorrect option
-         echo "Error: Invalid option"
-         exit;;
-   esac
-done
-
-echo
-read -p "Enter mode: " VAR1
-
-# Xdebug mode
-ON="on"
-OFF="off"
-
-if [[ "$VAR1" = "$ON" ]]; then
+ENABLE() {
     cp /tmp/docker-php-ext-xdebug.ini /usr/local/etc/php/conf.d/ \
     && kill -USR2 1 \
     && echo "Enable xdebug was completed."
-elif [[ "$VAR1" = "$OFF" ]]; then
+}
+
+DISABLE() {
     mv /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini /tmp/ \
     && kill -USR2 1 \
     && echo "Disable xdebug was completed."
-else
-    echo "Error: Invalid option"
-    Main
-fi
+}
+
+################################################################################
+# Options                                                                      #
+################################################################################
+while getopts ":h" option; do
+   case $option in
+    h) # display Help
+        HELP
+        exit;;
+   esac
+done
+
+case $1 in
+  "on") ENABLE ;;
+  "off") DISABLE ;;
+   *) MAIN ;;
+esac
