@@ -22,7 +22,7 @@ services:
     restart: always
     container_name: php
     volumes:
-      - ./conf/php/php.ini:/usr/local/etc/php.ini
+      - ./conf/php/php.ini:/usr/local/etc/php/php.ini
       - ./conf/php/xdebug:/usr/local/bin/xdebug
       - ./conf/php/opcache:/usr/local/bin/opcache
       - ${PROJECT_PATH}:/var/www/html
