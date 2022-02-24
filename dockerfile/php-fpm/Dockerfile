@@ -118,15 +118,6 @@ RUN docker-php-ext-install -j$(nproc) \
 
 # Install form source
 
-# ext-opache
-RUN docker-php-source extract \
-	&& docker-php-ext-enable opcache \
-	&& echo "opcache.enable=1" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
-	&& echo "opcache.enable_cli=0" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
-	&& echo "opcache.memory_consumption=356" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
-	&& echo "opcache.max_accelerated_files=100000" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
-	&& echo "opcache.validate_timestamps=0" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini
-
 # ext-apcu
 ENV EXT_APCU_VERSION=5.1.17
 
@@ -136,14 +127,25 @@ RUN mkdir -p /usr/src/php/ext/apcu \
 	&& echo "[apcu]" >> /usr/local/etc/php/conf.d/docker-php-ext-apcu.ini \
 	&& echo "apc.enabled=1" >> /usr/local/etc/php/conf.d/docker-php-ext-apcu.ini
 
+# ext-opache
+RUN docker-php-source extract \
+	&& docker-php-ext-enable opcache \
+	&& echo "zend_extension=opcache" >> /tmp/docker-php-ext-opcache.ini \
+	&& echo "opcache.enable=1" >> /tmp/docker-php-ext-opcache.ini \
+	&& echo "opcache.enable_cli=0" >> /tmp/docker-php-ext-opcache.ini \
+	&& echo "opcache.memory_consumption=356" >> /tmp/docker-php-ext-opcache.ini \
+	&& echo "opcache.max_accelerated_files=100000" >> /tmp/docker-php-ext-opcache.ini \
+	&& echo "opcache.validate_timestamps=0" >> /tmp/docker-php-ext-opcache.ini
+
 # x-debug
 RUN pecl install xdebug-3.0.4 \
 	&& docker-php-ext-enable xdebug \
-	&& echo "xdebug.mode=debug,develop" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
-	&& echo "xdebug.start_with_request=yes" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
-	&& echo "xdebug.remote_port=9003" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
-	&& echo "xdebug.discover_client_host=true" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
-	&& echo "xdebug.client_host=host.docker.internal" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+	&& echo "zend_extension=xdebug" >> /tmp/docker-php-ext-xdebug.ini \
+	&& echo "xdebug.mode=debug,develop" >> /tmp/docker-php-ext-xdebug.ini \
+	&& echo "xdebug.start_with_request=yes" >> /tmp/docker-php-ext-xdebug.ini \
+	&& echo "xdebug.remote_port=9003" >> /tmp/docker-php-ext-xdebug.ini \
+	&& echo "xdebug.discover_client_host=true" >> /tmp/docker-php-ext-xdebug.ini \
+	&& echo "xdebug.client_host=host.docker.internal" >> /tmp/docker-php-ext-xdebug.ini
 
 # clean up
 RUN docker-php-source delete
