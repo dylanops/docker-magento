@@ -113,6 +113,7 @@ Add line
 
 ## OPCache Toolkit
 ```bash
+# default opcache off
 
 docker exec -ti --user root php bash
 
@@ -130,6 +131,7 @@ opcache off
 
 ## XDebug Toolkit
 ```bash
+# default xdebug off
 
 docker exec -ti --user root php bash
 
@@ -156,7 +158,7 @@ exit
 
 ====> Add cron to crontab
 
-docker exec -ti bash
+docker exec -ti php bash
 
 php bin/magento cron:install
 
