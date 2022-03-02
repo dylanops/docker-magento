@@ -37,6 +37,11 @@ Docker support php libraries
 
 ## Init project
 ```bash
+
+git clone https://github.com/dylanops/docker-magento
+
+cd docker-magento
+
 mv .env.sample .env
 
 mkdir -p data/backup data/es-data data/mysql-data
@@ -72,6 +77,21 @@ openssl req -newkey rsa:4096 \
             -keyout local.key
 ```
 
+## Config nginx domain/ssl
+```
+cp conf/nginx/default.conf.sample conf/nginx/default.conf
+
+```
+
+## Edit hosts file in local workstation
+```
+vim /etc/hosts
+
+Add line
+
+127.0.0.1 magento.local
+```
+
 ## Start/Stop docker
 ```bash
 docker-compose up -d
@@ -86,21 +106,6 @@ php bin/magento setup:install --base-url=https://magento.local/ \
 --admin-firstname=Dylan --admin-lastname=Ngo --admin-email=it.dylanngo@gmail.com \
 --admin-user=admin --admin-password=admin123 --language=vi_VN --currency=VND --timezone=Asia/Ho_Chi_Minh \
 --session-save=db --use-rewrites=1 --use-secure=1 --use-secure-admin=1 --elasticsearch-host=elasticsearch --elasticsearch-port=9200 --search-engine=elasticsearch7 --elasticsearch-index-prefix=pdm --elasticsearch-enable-auth=false --cleanup-database
-```
-
-## Config nginx domain/ssl
-```
-cp conf/nginx/default.conf.sample conf/nginx/default.conf
-
-```
-
-## Edit hosts file in local workstation
-```
-vim /etc/hosts
-
-Add line
-
-127.0.0.1 magento.local
 ```
 
 ## Move database to backup folder, It'll help you to import database.
