@@ -43,6 +43,8 @@ mkdir -p data/backup data/es-data data/mysql-data
 
 Edit config on the .env file
 
+// .env
+
 PROJECT_PATH=/home/dylan/ggg/www/magento
 
 MYSQL_DATABASE=mysqldb
@@ -140,6 +142,29 @@ xdebug on
 xdebug off
 
 ```
+
+## Start Cronjob
+```bash
+
+=====> Start cron service
+
+docker exec -ti --user root bash
+
+service cron start
+
+exit
+
+====> Add cron to crontab
+
+docker exec -ti bash
+
+php bin/magento cron:install
+
+crontab -l
+
+```
+
+## Goto mysql admin
 
 Go to mysqladmin: http://localhost:8080
 
