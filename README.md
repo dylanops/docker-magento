@@ -43,6 +43,19 @@ mkdir -p data/backup data/es-data data/mysql-data
 
 Edit config on the .env file
 
+PROJECT_PATH=/home/dylan/ggg/www/magento
+
+MYSQL_DATABASE=mysqldb
+MYSQL_USER=magento
+MYSQL_PASSWORD=123456
+MYSQL_ROOT_PASSWORD=123456
+
+BLACKFIRE_LOG_LEVEL=1
+BLACKFIRE_SERVER_ID=
+BLACKFIRE_SERVER_TOKEN=
+BLACKFIRE_CLIENT_ID=
+BLACKFIRE_CLIENT_TOKEN=
+
 ```
 
 ## Create self credentials
