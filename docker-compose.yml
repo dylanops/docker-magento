@@ -26,6 +26,8 @@ services:
       - ./conf/php/xdebug:/usr/local/bin/xdebug
       - ./conf/php/opcache:/usr/local/bin/opcache
       - ${PROJECT_PATH}:/var/www/html
+      # - ./conf/php/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+      # - ./data/xdebug:/tmp/xdebug
     networks:
       - app
     environment:
@@ -50,20 +52,6 @@ services:
     networks:
       - app
 
-  # phpmyadmin:
-  #   image: phpmyadmin/phpmyadmin
-  #   container_name: phpmyadmin
-  #   links:
-  #     - mysql
-  #   environment:
-  #     PMA_HOST: mysql
-  #     PMA_PORT: 3306
-  #     PMA_ARBITRARY: 1
-  #   ports:
-  #     - 8080:80
-  #   networks:
-  #     - app
-
   elasticsearch:
     image: elasticsearch:7.13.2
     container_name: elasticsearch
@@ -76,6 +64,19 @@ services:
       discovery.type: single-node
     networks:
       - app
+
+  redis:
+    image: redis:6.2-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./data/redis:/usr/local/redis/data
+    command: redis-server --save 60 1 --requirepass MDNcVb924a --loglevel warning
+    networks:
+      - app
+    restart: always
+
 networks:
   app:
     driver: bridge
