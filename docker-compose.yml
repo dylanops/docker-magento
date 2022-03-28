@@ -26,8 +26,8 @@ services:
       - ./conf/php/xdebug:/usr/local/bin/xdebug
       - ./conf/php/opcache:/usr/local/bin/opcache
       - ${PROJECT_PATH}:/var/www/html
-      # - ./conf/php/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-      # - ./data/xdebug:/tmp/xdebug
+      - ./conf/php/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+      - ./data/xdebug:/tmp/xdebug
     networks:
       - app
     environment:
@@ -67,6 +67,7 @@ services:
 
   redis:
     image: redis:6.2-alpine
+    restart: always
     container_name: redis
     ports:
       - "6379:6379"
@@ -75,7 +76,6 @@ services:
     command: redis-server --save 60 1 --requirepass MDNcVb924a --loglevel warning
     networks:
       - app
-    restart: always
 
 networks:
   app:
