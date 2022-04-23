@@ -2,11 +2,11 @@
 
 Docker magento support
 
-* php:7.4.20
+* php:8.1.5
 * composer:2.1.3
 * mysql:8.0
-* elasticsearch:7.13.2
-* php-myadmin
+* elasticsearch:7.16.3
+* nginx:1.21.6
 
 Docker support php libraries
 
@@ -32,6 +32,8 @@ Docker support php libraries
 * apcu
 * memcached
 * curl
+* fileinfo
+* xmlwriter
 
 # How to use
 
