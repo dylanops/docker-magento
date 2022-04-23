@@ -1,4 +1,4 @@
-FROM php:7.4.20-cli
+FROM php:8.1.5-cli
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=2.1.3
 
@@ -41,7 +41,6 @@ RUN apt-get install -y \
 	libxslt-dev \
 	&& docker-php-ext-install -j$(nproc) \
 		dom \
-		xmlrpc \
 		xsl \
 		simplexml
 
@@ -115,12 +114,14 @@ RUN docker-php-ext-install -j$(nproc) \
 	sysvsem \
 	sysvshm \
 	ctype \
-	iconv
+	iconv \
+	fileinfo \
+	xmlwriter
 
 # Install form source
 
 # x-debug
-RUN pecl install xdebug-3.0.4 \
+RUN pecl install xdebug-3.1.2 \
 	&& docker-php-ext-enable xdebug \
 	&& echo "xdebug.mode=debug,develop" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
 	&& echo "xdebug.start_with_request=yes" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \

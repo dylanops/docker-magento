@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   nginx:
-    image: nginx:1.16.1
+    image: nginx:1.21.6
     container_name: nginx
     restart: always
     ports:
@@ -18,7 +18,7 @@ services:
       - app
 
   php:
-    image: dylanops/php:7.4
+    image: dylanops/php:8.1
     restart: always
     container_name: php
     volumes:
@@ -26,8 +26,6 @@ services:
       - ./conf/php/xdebug:/usr/local/bin/xdebug
       - ./conf/php/opcache:/usr/local/bin/opcache
       - ${PROJECT_PATH}:/var/www/html
-      - ./conf/php/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-      - ./data/xdebug:/tmp/xdebug
     networks:
       - app
     environment:
