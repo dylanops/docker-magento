@@ -22,11 +22,11 @@ services:
     restart: always
     container_name: php
     volumes:
+      - ${PROJECT_PATH}:/var/www/html
       - ./conf/php/php.ini:/usr/local/etc/php/php.ini
       - ./conf/php/xdebug:/usr/local/bin/xdebug
       - ./conf/php/opcache:/usr/local/bin/opcache
-      - ${PROJECT_PATH}:/var/www/html
-      - ./conf/php/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+      - ./conf/php/xdebug.ini:/tmp/docker-php-ext-xdebug.ini
       - ./data/xdebug:/tmp/xdebug
     networks:
       - app
@@ -57,6 +57,7 @@ services:
     container_name: elasticsearch
     volumes:
       - ./data/es-data:/usr/share/elasticsearch/data
+      - ./data/es-plugins:/usr/share/elasticsearch/plugins
     ports:
       - "9300:9300"
       - "9200:9200"

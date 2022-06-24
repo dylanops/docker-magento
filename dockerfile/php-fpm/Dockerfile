@@ -140,12 +140,8 @@ RUN docker-php-source extract \
 # x-debug
 RUN pecl install xdebug-3.0.4 \
 	&& docker-php-ext-enable xdebug \
-	&& echo "zend_extension=xdebug" >> /tmp/docker-php-ext-xdebug.ini \
-	&& echo "xdebug.mode=debug,develop" >> /tmp/docker-php-ext-xdebug.ini \
-	&& echo "xdebug.start_with_request=yes" >> /tmp/docker-php-ext-xdebug.ini \
-	&& echo "xdebug.remote_port=9003" >> /tmp/docker-php-ext-xdebug.ini \
-	&& echo "xdebug.discover_client_host=true" >> /tmp/docker-php-ext-xdebug.ini \
-	&& echo "xdebug.client_host=host.docker.internal" >> /tmp/docker-php-ext-xdebug.ini
+	&& echo "xdebug.remote_autostart=0" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+	&& echo "xdebug.remote_enable=0" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 # clean up
 RUN docker-php-source delete

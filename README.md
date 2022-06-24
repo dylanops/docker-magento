@@ -44,7 +44,7 @@ cd docker-magento
 
 mv .env.sample .env
 
-mkdir -p data/backup data/es-data data/mysql-data
+mkdir -p data/backup data/es-data data/es-plugins data/mysql-data
 
 Edit config on the .env file
 
@@ -148,6 +148,14 @@ xdebug on
 # Disable XDebug
 xdebug off
 
+```
+
+## Install ElasticSearch plugins
+
+```bash
+docker exec -ti elasticsearch bash
+
+bin/elasticsearch-plugin install analysis-icu && bin/elasticsearch-plugin install analysis-phonetic
 ```
 
 ## Start Cronjob
