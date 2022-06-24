@@ -3,6 +3,7 @@ src
 data/backup/*.sql
 data/backup/*.sql.gz
 data/es-data/*
+data/es-plugins/*
 data/mysql-data/*
 log
 mysql

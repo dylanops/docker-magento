@@ -46,7 +46,7 @@ cd docker-magento
 
 mv .env.sample .env
 
-mkdir -p data/backup data/es-data data/mysql-data
+mkdir -p data/backup data/es-data data/es-plugins data/mysql-data
 
 Edit config on the .env file
 
