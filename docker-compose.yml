@@ -9,11 +9,11 @@ services:
       - "80:80"
       - "443:443"
     volumes:
+      - ${PROJECT_PATH}:/var/www/html
       - ./conf/nginx/local.crt:/var/www/ssl/local.crt
       - ./conf/nginx/local.key:/var/www/ssl/local.key
       - ./conf/nginx/default.conf:/etc/nginx/conf.d/default.conf
       - ./log/nginx:/var/log/nginx
-      - ${PROJECT_PATH}:/var/www/html
     networks:
       - app
 
