@@ -36,10 +36,9 @@ services:
       - "host.docker.internal:host-gateway"
 
   mysql:
-    image: mysql:8.0.16
+    image: mariadb:10.4.25
     container_name: mysql
     volumes:
-      - ./conf/mysql/my.conf:/etc/mysql/my.cnf
       - ./data/backup:/var/backup
       - ./data/mysql-data:/var/lib/mysql
     environment:
