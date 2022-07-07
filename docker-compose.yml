@@ -36,7 +36,7 @@ services:
       - "host.docker.internal:host-gateway"
 
   mysql:
-    image: mysql:8.0
+    image: mysql:8.0.16
     container_name: mysql
     volumes:
       - ./conf/mysql/my.conf:/etc/mysql/my.cnf
