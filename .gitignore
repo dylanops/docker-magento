@@ -11,6 +11,5 @@ mysql
 .vs
 *.env
 
-conf/nginx/*.crt
-conf/nginx/*.key
-conf/nginx/*.conf
+conf/nginx/*
+!conf/nginx/README.md

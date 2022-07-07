@@ -27,13 +27,14 @@ MAIN(){
 }
 
 ENABLE() {
-    cp /tmp/docker-php-ext-opcache.ini /usr/local/etc/php/conf.d/ \
+    xdebug off \
+    && cp /tmp/docker-php-ext-opcache.ini /usr/local/etc/php/conf.d/ \
     && kill -USR2 1 \
     && echo "Enable OPCache was completed."
 }
 
 DISABLE() {
-        mv /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini /tmp/ \
+    rm -rf /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
     && kill -USR2 1 \
     && echo "Disable OPCache was completed."
 }

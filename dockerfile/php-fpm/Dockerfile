@@ -131,12 +131,8 @@ RUN mkdir -p /usr/src/php/ext/apcu \
 # ext-opache
 RUN docker-php-source extract \
 	&& docker-php-ext-enable opcache \
-	&& echo "zend_extension=opcache" >> /tmp/docker-php-ext-opcache.ini \
-	&& echo "opcache.enable=1" >> /tmp/docker-php-ext-opcache.ini \
-	&& echo "opcache.enable_cli=0" >> /tmp/docker-php-ext-opcache.ini \
-	&& echo "opcache.memory_consumption=356" >> /tmp/docker-php-ext-opcache.ini \
-	&& echo "opcache.max_accelerated_files=100000" >> /tmp/docker-php-ext-opcache.ini \
-	&& echo "opcache.validate_timestamps=0" >> /tmp/docker-php-ext-opcache.ini
+	&& echo "opcache.enable=0" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
+	&& echo "opcache.enable_cli=0" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini
 
 # x-debug
 RUN pecl install xdebug-3.1.2 \

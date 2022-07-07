@@ -26,13 +26,14 @@ MAIN(){
 }
 
 ENABLE() {
-    cp /tmp/docker-php-ext-xdebug.ini /usr/local/etc/php/conf.d/ \
+    opcache off \
+    && cp /tmp/docker-php-ext-xdebug.ini /usr/local/etc/php/conf.d/ \
     && kill -USR2 1 \
     && echo "Enable xdebug was completed."
 }
 
 DISABLE() {
-    mv /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini /tmp/ \
+    rm -rf /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
     && kill -USR2 1 \
     && echo "Disable xdebug was completed."
 }
