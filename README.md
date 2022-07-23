@@ -105,7 +105,7 @@ php bin/magento setup:install --base-url=https://magento.local/ \
 --db-host=mysql --db-name=m241ee --db-user=root --db-password=123456 \
 --admin-firstname=Dylan --admin-lastname=Ngo --admin-email=it.dylanngo@gmail.com \
 --admin-user=admin --admin-password=admin123 --language=vi_VN --currency=VND --timezone=Asia/Ho_Chi_Minh \
---session-save=db --use-rewrites=1 --use-secure=1 --use-secure-admin=1 --elasticsearch-host=elasticsearch --elasticsearch-port=9200 --search-engine=elasticsearch7 --elasticsearch-index-prefix=magento --elasticsearch-enable-auth=false --cleanup-database
+--session-save=db --use-rewrites=1 --use-secure=1 --use-secure-admin=1 --elasticsearch-host=opensearch --elasticsearch-port=9200 --search-engine=elasticsearch7 --elasticsearch-index-prefix=magento --elasticsearch-enable-auth=false --cleanup-database
 ```
 
 ## Move database to backup folder, It'll help you to import database.
@@ -150,12 +150,12 @@ xdebug off
 
 ```
 
-## Install ElasticSearch plugins
+## Install opensearch plugins
 
 ```bash
-docker exec -ti elasticsearch bash
+docker exec -ti opensearch bash
 
-bin/elasticsearch-plugin install analysis-icu && bin/elasticsearch-plugin install analysis-phonetic
+/usr/share/opensearch/bin/opensearch-plugin install --batch analysis-icu analysis-phonetic
 ```
 
 ## Start Cronjob
