@@ -5,7 +5,7 @@ Docker magento support
 * php:7.4.20
 * composer:2.1.3
 * mysql:8.0
-* elasticsearch:7.13.2
+* opensearch:1.2.4
 * php-myadmin
 
 Docker support php libraries
@@ -44,7 +44,7 @@ cd docker-magento
 
 mv .env.sample .env
 
-mkdir -p data/backup data/es-data data/es-plugins data/mysql-data
+mkdir -p data/backup data/os-data data/os-plugins data/mysql-data
 
 Edit config on the .env file
 

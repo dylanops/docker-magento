@@ -52,17 +52,29 @@ services:
     networks:
       - app
 
-  elasticsearch:
-    image: elasticsearch:7.16.3
-    container_name: elasticsearch
-    volumes:
-      - ./data/es-data:/usr/share/elasticsearch/data
-      - ./data/es-plugins:/usr/share/elasticsearch/plugins
+  opensearch:
+    image: opensearchproject/opensearch:1.2.4
+    container_name: opensearch
     ports:
-      - "9300:9300"
+      - "9600:9600"
       - "9200:9200"
     environment:
-      discovery.type: single-node
+      - "discovery.type=single-node"
+      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "DISABLE_SECURITY_PLUGIN=true"
+    networks:
+      - app
+
+  opensearch-dashboards:
+    image: opensearchproject/opensearch-dashboards:1.2.0
+    container_name: opensearch-dashboards
+    ports:
+      - 5601:5601
+    expose:
+      - "5601"
+    environment:
+      - 'OPENSEARCH_HOSTS=["http://opensearch:9200"]'
+      - "DISABLE_SECURITY_DASHBOARDS_PLUGIN=true" # disables security dashboards plugin in OpenSearch Dashboards
     networks:
       - app
 
