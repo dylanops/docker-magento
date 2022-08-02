@@ -1,4 +1,4 @@
-FROM php:7.4.20-cli
+FROM php:7.4.28-cli
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=2.1.3
 
