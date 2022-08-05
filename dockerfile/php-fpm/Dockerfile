@@ -1,6 +1,6 @@
-FROM php:7.4.28-fpm
+FROM php:7.4.30-fpm
 
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=2.1.3
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=2.1.14
 
 # Locales
 RUN apt-get update \
@@ -114,7 +114,9 @@ RUN docker-php-ext-install -j$(nproc) \
 	sysvsem \
 	sysvshm \
 	ctype \
-	iconv
+	iconv \
+	fileinfo \
+	xmlwriter
 
 # Install form source
 
@@ -130,12 +132,8 @@ RUN mkdir -p /usr/src/php/ext/apcu \
 # ext-opache
 RUN docker-php-source extract \
 	&& docker-php-ext-enable opcache \
-	&& echo "zend_extension=opcache" >> /tmp/docker-php-ext-opcache.ini \
-	&& echo "opcache.enable=1" >> /tmp/docker-php-ext-opcache.ini \
-	&& echo "opcache.enable_cli=0" >> /tmp/docker-php-ext-opcache.ini \
-	&& echo "opcache.memory_consumption=356" >> /tmp/docker-php-ext-opcache.ini \
-	&& echo "opcache.max_accelerated_files=100000" >> /tmp/docker-php-ext-opcache.ini \
-	&& echo "opcache.validate_timestamps=0" >> /tmp/docker-php-ext-opcache.ini
+	&& echo "opcache.enable=0" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
+	&& echo "opcache.enable_cli=0" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini
 
 # x-debug
 RUN pecl install xdebug-3.0.4 \
