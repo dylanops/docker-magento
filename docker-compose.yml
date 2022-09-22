@@ -18,12 +18,12 @@ services:
       - app
 
   php:
-    image: dylanops/php:7.4.30
+    image: dylanops/php:7.2
     restart: always
     container_name: php
     volumes:
       - ${PROJECT_PATH}:/var/www/html
-      - ./conf/php/php.ini:/usr/local/etc/php/php.ini
+      - ./conf/php/platform.php.ini:/usr/local/etc/php/php.ini
       - ./conf/php/xdebug:/usr/local/bin/xdebug
       - ./conf/php/opcache:/usr/local/bin/opcache
       - ./conf/php/xdebug.ini:/tmp/docker-php-ext-xdebug.ini
@@ -54,7 +54,7 @@ services:
       - app
 
   opensearch:
-    image: opensearchproject/opensearch:1.2.4
+    image: elasticsearch:7.7.1
     container_name: opensearch
     ports:
       - "9600:9600"
@@ -64,20 +64,20 @@ services:
       - "OPENSEARCH_JAVA_OPTS=-Xms2G -Xmx2G"
       - "DISABLE_SECURITY_PLUGIN=true"
     volumes:
-      - opensearch-data:/usr/share/opensearch/data
-      - opensearch-plugins:/usr/share/opensearch/plugins
+      - ./data/es-data:/usr/share/elasticsearch/data
+      - ./data/es-plugin:/usr/share/elasticsearch/plugins
     networks:
       - app
 
   opensearch-dashboards:
-    image: opensearchproject/opensearch-dashboards:1.2.0
+    image: docker.elastic.co/kibana/kibana:7.7.1
     container_name: opensearch-dashboards
     ports:
       - 5601:5601
     expose:
       - "5601"
     environment:
-      - 'OPENSEARCH_HOSTS=["http://opensearch:9200"]'
+      - 'ELASTICSEARCH_HOSTS=["http://opensearch:9200"]'
       - "DISABLE_SECURITY_DASHBOARDS_PLUGIN=true" # disables security dashboards plugin in OpenSearch Dashboards
     networks:
       - app
