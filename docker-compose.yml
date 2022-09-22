@@ -53,7 +53,7 @@ services:
     networks:
       - app
 
-  opensearch:
+  elasticsearch:
     image: elasticsearch:7.7.1
     container_name: opensearch
     ports:
@@ -69,15 +69,15 @@ services:
     networks:
       - app
 
-  opensearch-dashboards:
+  elasticsearch-dashboards:
     image: docker.elastic.co/kibana/kibana:7.7.1
-    container_name: opensearch-dashboards
+    container_name: elasticsearch-dashboards
     ports:
       - 5601:5601
     expose:
       - "5601"
     environment:
-      - 'ELASTICSEARCH_HOSTS=["http://opensearch:9200"]'
+      - 'ELASTICSEARCH_HOSTS=["http://elasticsearch:9200"]'
       - "DISABLE_SECURITY_DASHBOARDS_PLUGIN=true" # disables security dashboards plugin in OpenSearch Dashboards
     networks:
       - app
@@ -95,8 +95,8 @@ services:
       - app
 
 volumes:
-  opensearch-data:
-  opensearch-plugins:
+  elasticsearch-data:
+  elasticsearch-plugins:
 
 networks:
   app:
