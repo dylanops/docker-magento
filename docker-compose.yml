@@ -54,8 +54,8 @@ services:
       - app
 
   elasticsearch:
-    image: elasticsearch:7.7.1
-    container_name: opensearch
+    image: elasticsearch:6.8.23
+    container_name: elasticsearch
     ports:
       - "9600:9600"
       - "9200:9200"
@@ -64,13 +64,13 @@ services:
       - "OPENSEARCH_JAVA_OPTS=-Xms2G -Xmx2G"
       - "DISABLE_SECURITY_PLUGIN=true"
     volumes:
-      - ./data/es-data:/usr/share/elasticsearch/data
-      - ./data/es-plugin:/usr/share/elasticsearch/plugins
+      - ./data/es6-data:/usr/share/elasticsearch/data
+      - ./data/es6-plugin:/usr/share/elasticsearch/plugins
     networks:
       - app
 
   elasticsearch-dashboards:
-    image: docker.elastic.co/kibana/kibana:7.7.1
+    image: docker.elastic.co/kibana/kibana:6.8.23
     container_name: elasticsearch-dashboards
     ports:
       - 5601:5601

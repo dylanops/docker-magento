@@ -150,12 +150,12 @@ xdebug off
 
 ```
 
-## Install opensearch plugins
+## Install elasticsearch plugins
 
 ```bash
-docker exec -ti opensearch bash
+docker exec -ti elasticsearch bash
 
-/usr/share/opensearch/bin/opensearch-plugin install --batch analysis-icu analysis-phonetic
+/usr/share/elasticsearch/bin/elasticsearch-plugin install --batch analysis-icu analysis-phonetic
 ```
 
 ## Start Cronjob
