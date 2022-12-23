@@ -102,7 +102,7 @@ docker-compose down -v
 ## Setup magento
 ```bash
 php bin/magento setup:install --base-url=https://magento.local/ \
---db-host=mysql --db-name=m241ee --db-user=root --db-password=123456 \
+--db-host=mysql --db-name=m245cc --db-user=root --db-password=123456 \
 --admin-firstname=Dylan --admin-lastname=Ngo --admin-email=it.dylanngo@gmail.com \
 --admin-user=admin --admin-password=admin123 --language=vi_VN --currency=VND --timezone=Asia/Ho_Chi_Minh \
 --session-save=db --use-rewrites=1 --use-secure=1 --use-secure-admin=1 --elasticsearch-host=elasticsearch --elasticsearch-port=9200 --search-engine=elasticsearch7 --elasticsearch-index-prefix=magento --elasticsearch-enable-auth=false --cleanup-database
@@ -198,4 +198,9 @@ echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
 
 ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no "$SERVER_USER"@"$SERVER_HOST"
 
+```
+
+## Docker build
+```bash
+docker buildx build --push --platform linux/amd64,linux/arm64/v8 ./dockerfile/php-fpm --tag dylanops/php:7.4
 ```

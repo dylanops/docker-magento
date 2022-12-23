@@ -1,4 +1,4 @@
-FROM php:7.4.20-cli
+FROM php:7.4.33-cli
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=2.1.3
 
@@ -44,17 +44,6 @@ RUN apt-get install -y \
 		xmlrpc \
 		xsl \
 		simplexml
-
-# images
-RUN apt-get install -y \
-	libfreetype6-dev \
-	libjpeg62-turbo-dev \
-	libpng-dev \
-	libgd-dev \
-	&& docker-php-ext-configure gd --with-freetype --with-jpeg \
-	&& docker-php-ext-install -j$(nproc) \
-		gd \
-		exif
 
 # database
 RUN docker-php-ext-install -j$(nproc) \
@@ -136,10 +125,19 @@ RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 RUN cd /usr/local/etc/php/conf.d/ && \
 	echo 'memory_limit = 2G' >> /usr/local/etc/php/conf.d/docker-php-memlimit.ini
 
+# Configure non-root user.
+ARG PUID=1000
+ENV PUID ${PUID}
+ARG PGID=1000
+ENV PGID ${PGID}
+
+RUN groupmod -o -g ${PGID} app && \
+    usermod -o -u ${PUID} -g app app
+
 # Add user
 
-RUN groupadd -g 1000 app \
-    && useradd -g 1000 -u 1000 -d /var/www -s /bin/bash app
+# RUN groupadd -g 1000 app \
+#     && useradd -g 1000 -u 1000 -d /var/www -s /bin/bash app
 
 RUN mkdir -p /var/www/html \
     && chown -R app:app /var/www
