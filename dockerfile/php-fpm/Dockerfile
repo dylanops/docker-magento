@@ -147,12 +147,9 @@ ENV PUID ${PUID}
 ARG PGID=1000
 ENV PGID ${PGID}
 
-RUN groupmod -o -g ${PGID} app && \
-    usermod -o -u ${PUID} -g app app
-
 # Add user
-# RUN groupadd -g 1000 app \
-#     && useradd -g 1000 -u 1000 -d /var/www -s /bin/bash app
+RUN groupadd -g ${PGID} app \
+    && useradd -g ${PGID} -u ${PUID} -d /var/www -s /bin/bash app
 
 RUN mkdir -p /var/www/html \
     && chown -R app:app /var/www

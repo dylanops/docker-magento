@@ -18,7 +18,6 @@ services:
       - app
 
   php:
-    build: 'dockerfile/php-fpm/'
     image: dylanops/php:7.4
     restart: always
     container_name: php
