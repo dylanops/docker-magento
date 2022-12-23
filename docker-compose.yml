@@ -18,6 +18,7 @@ services:
       - app
 
   php:
+    build: 'dockerfile/php-fpm/'
     image: dylanops/php:7.4
     restart: always
     container_name: php
@@ -26,8 +27,8 @@ services:
       - ./conf/php/php.ini:/usr/local/etc/php/php.ini
       - ./conf/php/xdebug:/usr/local/bin/xdebug
       - ./conf/php/opcache:/usr/local/bin/opcache
-      - ./conf/php/xdebug.ini:/tmp/docker-php-ext-xdebug.ini
-      - ./data/xdebug:/tmp/xdebug
+      # - ./conf/php/xdebug.ini:/tmp/docker-php-ext-xdebug.ini
+      # - ./data/xdebug:/tmp/xdebug
     networks:
       - app
     environment:
