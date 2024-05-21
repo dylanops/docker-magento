@@ -7,6 +7,8 @@ Docker magento support
 * mysql:8.0
 * elasticsearch:7.13.2
 * php-myadmin
+* mysql-client
+* tmux
 
 Docker support php libraries
 
