@@ -1,6 +1,6 @@
-FROM php:7.4.33-fpm
+FROM php:8.1.28-fpm
 
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=1.10.27
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=2.2.23
 
 # Locales
 RUN apt-get update \
@@ -42,7 +42,6 @@ RUN apt-get install -y \
 	libxslt-dev \
 	&& docker-php-ext-install -j$(nproc) \
 		dom \
-		xmlrpc \
 		xsl \
 		simplexml
 
@@ -96,6 +95,10 @@ RUN apt-get install -y \
 		gd \
 		exif
 
+# Sodium
+RUN apt-get install libsodium-dev -y \ 
+	&& docker-php-ext-install sodium
+
 # others
 RUN docker-php-ext-install -j$(nproc) \
 	soap \
@@ -105,7 +108,7 @@ RUN docker-php-ext-install -j$(nproc) \
 	sysvsem \
 	sysvshm \
 	ctype \
-	iconv
+	zip
 
 # Install form source
 
@@ -129,7 +132,7 @@ RUN docker-php-source extract \
 	&& echo "opcache.validate_timestamps=0" >> /tmp/docker-php-ext-opcache.ini
 
 # x-debug
-RUN pecl install xdebug-3.1.0 \
+RUN pecl install xdebug-3.3.0 \
 	&& docker-php-ext-enable xdebug \
 	&& echo "xdebug.remote_autostart=0" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
 	&& echo "xdebug.remote_enable=0" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
