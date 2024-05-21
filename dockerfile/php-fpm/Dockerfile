@@ -110,6 +110,8 @@ RUN docker-php-ext-install -j$(nproc) \
 	ctype \
 	zip
 
+# Todo add iconv
+
 # Install form source
 
 # ext-apcu

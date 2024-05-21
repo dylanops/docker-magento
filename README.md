@@ -2,8 +2,8 @@
 
 Docker magento support
 
-* php:7.4.20
-* composer:2.1.3
+* php:8.1.28
+* composer:2.2
 * mysql:8.0
 * elasticsearch:7.13.2
 * php-myadmin
