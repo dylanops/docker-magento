@@ -18,9 +18,10 @@ services:
       - app
 
   php:
-    image: dylanops/php:7.4.33
+    image: dylanops/php:7.4.33-newrelic
     restart: always
     container_name: php
+    platform: linux/amd64
     volumes:
       - ${PROJECT_PATH}:/var/www/html
       - ./conf/php/php.ini:/usr/local/etc/php/php.ini
@@ -32,11 +33,22 @@ services:
       - app
     environment:
       PHP_IDE_CONFIG: 'serverName=web'
+      NEW_RELIC_LICENSE_KEY: ${NEW_RELIC_LICENSE_KEY}
+      NEW_RELIC_APPNAME: ${NEW_RELIC_APPNAME}
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
+  newrelic-php-deamon:
+    image: newrelic/php-daemon
+    container_name: newrelic-php-daemon
+    platform: linux/amd64
+    ports:
+      - 31339
+    networks:
+      - app
+
   mysql:
-    image: mysql:8.0.16
+    image: mysql:8.0.38-oracle
     container_name: mysql
     volumes:
       - ./conf/mysql/my.conf:/etc/mysql/my.cnf
@@ -49,11 +61,12 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     ports:
       - "3306:3306"
+    command: mysqld --default-authentication-plugin=mysql_native_password
     networks:
       - app
 
   elasticsearch:
-    image: elasticsearch:7.13.2
+    image: elasticsearch:7.17.3
     container_name: elasticsearch
     volumes:
       - ./data/es-data:/usr/share/elasticsearch/data

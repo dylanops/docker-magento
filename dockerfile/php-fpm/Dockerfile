@@ -111,6 +111,8 @@ RUN docker-php-ext-install -j$(nproc) \
 
 # ext-apcu
 ENV EXT_APCU_VERSION=5.1.17
+ARG NEW_RELIC_LICENSE_KEY=key
+ARG NEW_RELIC_APPNAME=appname
 
 RUN mkdir -p /usr/src/php/ext/apcu \
 	&& curl -fsSL https://github.com/krakjoe/apcu/archive/v$EXT_APCU_VERSION.tar.gz | tar xvz -C /usr/src/php/ext/apcu --strip 1 \
@@ -141,6 +143,19 @@ RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
 RUN cd /usr/local/etc/php/conf.d/ && \
 	echo 'memory_limit = 2G' >> /usr/local/etc/php/conf.d/docker-php-memlimit.ini
+
+# NewRelic
+ARG NEW_RELIC_AGENT_VERSION=10.10.0.1
+
+RUN curl -L https://download.newrelic.com/php_agent/archive/${NEW_RELIC_AGENT_VERSION}/newrelic-php5-${NEW_RELIC_AGENT_VERSION}-linux.tar.gz | tar -C /tmp -zx \
+    && export NR_INSTALL_USE_CP_NOT_LN=1 \
+    && export NR_INSTALL_SILENT=1 \
+    && /tmp/newrelic-php5-${NEW_RELIC_AGENT_VERSION}-linux/newrelic-install install \
+    && rm -rf /tmp/newrelic-php5-* /tmp/nrinstall*
+
+ADD ./newrelic-enable /usr/bin/newrelic-enable
+
+RUN chmod +x /usr/bin/newrelic-enable
 
 # Configure non-root user.
 ARG PUID=1000
